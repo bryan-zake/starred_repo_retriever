@@ -28,19 +28,19 @@ while read repo; do
   # Check whether or not to pull the repo if it already exists
   # Get the repo_name as this will be the directory we check to determine whether to do a pull
   repo_name=$(echo $repo  | rev | sed 's/\/.*//' | rev)
-  if [[ -d $1$repo_name ]]; then
-    cd $1$repo_name
+  if [[ -d $1"/"$repo_name ]]; then
+    cd $1"/"$repo_name
     git pull --all
     echo
   else
-    echo "Cloning "$1$repo_name
+    echo "Cloning "$1"/"$repo_name
     # The url given is not clonable in its current form so replace it with the clonable url
     api_url="api.github.com/repos"
     html_url="github.com"
     html_repo=${repo/$api_url/$html_url}.git
     # Finally, clone our starred repo into our directory
     # Note that we accept an argument, which can be a directory. 
-    git clone $html_repo $1$repo_name
+    git clone $html_repo $1"/"$repo_name
   fi
 done < starred_urls.data
 
