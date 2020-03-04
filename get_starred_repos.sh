@@ -20,15 +20,15 @@
 #############################################################################
 
 #############################################################################
-# Get all the starred repos for your user.
-# Goes to the github REST v3 API and pulls down the starred repos
-# This file doesn't cover edge cases like duplicate repos 
-# You will need to add an authorization.sh file to your directory 
-# That way you get the AUTHORIZATION_TOKEN for your user 
+# Get all the starred repos for your github user.
+# This file doesn't cover duplicate named starred repos
+# You will need to add an authorization.sh file to your directory
+# That way you get the AUTHORIZATION_TOKEN for your user
+# Pass in a $DIRECTORY value if you'd like. Otherwise writes and creates a repos directory
 #############################################################################
 
 source authorization.sh
-# Determine the number of pages of starred repos you need to get 
+# Determine the number of pages of starred repos you need to get prior to and modify this value
 NUMBER_OF_PAGES=10
 API_URL=https://api.github.com/user/starred?page=
 
@@ -40,15 +40,15 @@ else
 fi
 
 for ((i=0; i <= $NUMBER_OF_PAGES; i+=1)); do
-  contents=$(curl -H "Authorization: token $AUTHORIZATION_TOKEN" "$API_URL$i") 
+  contents=$(curl -H "Authorization: token $AUTHORIZATION_TOKEN" "$API_URL$i")
   echo "Page "$i
   echo "$contents" > $i.json
 done
 
-# Put all the starred github urls into a single file and clean up the fluff around the url 
+# Put all the starred github urls into a single file and clean up the fluff around the url
 cat *.json | grep \"url\" | grep -v licenses | grep -v users | grep -v null | sed -e 's/\(\"url\": \"\)//g' | sed -e 's/\(\"\,\)//g' > starred_urls.data
 
-# Clone all the starred repos or check if a refresh can be performed with a pull on an existing repo 
+# Clone all the starred repos or check if a refresh can be performed with a pull on an existing repo
 while read repo; do
   # Strip the trailing whitespace in the repo url
   repo=$(echo "$repo" | tr -d '[:space:]')
@@ -68,8 +68,7 @@ while read repo; do
     html_url="github.com"
     html_repo=${repo/$api_url/$html_url}.git
     # Finally, clone our starred repo into our directory
-    # Note that we accept an argument, which can be a directory. 
+    # Note that we accept an argument, which can be a directory.
     git clone $html_repo $DIRECTORY"/"$repo_name
   fi
 done < starred_urls.data
-
