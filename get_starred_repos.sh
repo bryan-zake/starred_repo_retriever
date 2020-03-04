@@ -1,9 +1,31 @@
 #!/bin/bash
-# A somewhat simple bash program to get all the starred repos for your user.
+
+#############################################################################
+# MIT License
+# Copyright (c) 2020-Present Bryan Zake
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#############################################################################
+
+#############################################################################
+# Get all the starred repos for your user.
 # Goes to the github REST v3 API and pulls down the starred repos
 # This file doesn't cover edge cases like duplicate repos 
 # You will need to add an authorization.sh file to your directory 
-# for your AUTHORIZATION_TOKEN to get your starred repos
+# That way you get the AUTHORIZATION_TOKEN for your user 
+#############################################################################
 
 source authorization.sh
 # Determine the number of pages of starred repos you need to get 
